@@ -29,12 +29,21 @@ router.post('/api/notes', (req, res) => {
     console.log(newNote);
     noteList.push(newNote);
     fs.writeFileSync("./db/db.json", JSON.stringify(noteList));
-  
+
     return res.json(noteList);
 
-    });
+});
 
+router.delete('/api/notes/:id', (req, res) => {
+    console.log(req.params)
+    const noteId = parseInt(req.params.id)
+    const noteList = JSON.parse(fs.readFileSync("./db/db.json"));
+    const newArray = noteList.filter(note => note.id !== noteId);
 
+    fs.writeFileSync("./db/db.json", JSON.stringify(newArray));
+    // console.log(newArray);
+    res.json(newArray);
+});
 
 
 
