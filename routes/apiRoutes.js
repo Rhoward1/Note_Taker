@@ -17,7 +17,22 @@ router.get('/api/notes', (req, res) => {
 });
 
 
+router.post('/api/notes', (req, res) => {
+    const noteList = JSON.parse(fs.readFileSync('./db/db.json', 'utf8'));
+    const newNote = {
+        id: noteList[noteList.length - 1].id + 1,
+        title: req.body.title,
+        text: req.body.text,
 
+    };
+
+    console.log(newNote);
+    noteList.push(newNote);
+    fs.writeFileSync("./db/db.json", JSON.stringify(noteList));
+  
+    return res.json(noteList);
+
+    });
 
 
 
